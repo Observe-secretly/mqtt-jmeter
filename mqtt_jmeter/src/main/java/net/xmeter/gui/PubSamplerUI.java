@@ -35,6 +35,8 @@ public class PubSamplerUI extends AbstractSamplerGui implements Constants, Chang
 	private final JTextScrollPane messagePanel = JTextScrollPane.getInstance(sendMessage);
 	private JLabeledTextField stringLength = new JLabeledTextField("Length:");
 
+	public static String SELECTED_MESSAGE_TYPE = MESSAGE_TYPE_STRING;
+
 	public PubSamplerUI() {
 		init();
 	}
@@ -141,10 +143,13 @@ public class PubSamplerUI extends AbstractSamplerGui implements Constants, Chang
 		if(MESSAGE_TYPE_STRING.equalsIgnoreCase(sampler.getMessageType())) {
 			this.messageTypes.setSelectedIndex(0);	
 			this.messagePanel.setVisible(true);
+			SELECTED_MESSAGE_TYPE = MESSAGE_TYPE_STRING;
 		} else if(MESSAGE_TYPE_HEX_STRING.equalsIgnoreCase(sampler.getMessageType())) {
 			this.messageTypes.setSelectedIndex(1);
+			SELECTED_MESSAGE_TYPE = MESSAGE_TYPE_HEX_STRING;
 		} else if(MESSAGE_TYPE_RANDOM_STR_WITH_FIX_LEN.equalsIgnoreCase(sampler.getMessageType())) {
 			this.messageTypes.setSelectedIndex(2);
+			SELECTED_MESSAGE_TYPE= MESSAGE_TYPE_RANDOM_STR_WITH_FIX_LEN;
 		}
 		
 		stringLength.setText(String.valueOf(sampler.getMessageLength()));

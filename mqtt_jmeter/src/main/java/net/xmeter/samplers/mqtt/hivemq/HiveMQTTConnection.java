@@ -18,6 +18,9 @@ import com.hivemq.client.mqtt.mqtt3.message.subscribe.Mqtt3SubscribeBuilder;
 import com.hivemq.client.mqtt.mqtt3.message.subscribe.Mqtt3Subscription;
 import com.hivemq.client.mqtt.mqtt3.message.subscribe.suback.Mqtt3SubAckReturnCode;
 
+import net.xmeter.BytesUtil;
+import net.xmeter.Constants;
+import net.xmeter.gui.PubSamplerUI;
 import net.xmeter.samplers.mqtt.MQTTClientException;
 import net.xmeter.samplers.mqtt.MQTTConnection;
 import net.xmeter.samplers.mqtt.MQTTPubResult;
@@ -111,11 +114,19 @@ class HiveMQTTConnection implements MQTTConnection {
 
     private String decode(ByteBuffer value) {
         try {
+            //如果是hex格式 则按照解析成hex字符串
+            if(PubSamplerUI.SELECTED_MESSAGE_TYPE.equalsIgnoreCase(Constants.MESSAGE_TYPE_HEX_STRING)) {
+                // 读取字节数据
+                byte[] bytes = new byte[value.remaining()];
+                value.get(bytes);
+                return BytesUtil.byteArrayToString(bytes);
+            }
             return decoder.get().decode(value).toString();
         } catch (CharacterCodingException e) {
             throw new RuntimeException(new MQTTClientException("Failed to decode", e));
         }
     }
+
 
     @Override
     public void setSubListener(MQTTSubListener listener) {

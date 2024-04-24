@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.DatatypeConverter;
 
+import net.xmeter.BytesUtil;
 import org.apache.jmeter.samplers.Entry;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.threads.JMeterContextService;
@@ -155,7 +156,12 @@ public class PubSampler extends AbstractMQTTSampler {
 			MQTTPubResult pubResult = connection.publish(topicName, toSend, qos_enum, retainedMsg);
 			
 			result.sampleEnd();
-			result.setSamplerData(new String(toSend));
+			if(getMessageType().equalsIgnoreCase(MESSAGE_TYPE_HEX_STRING)){
+				result.setSamplerData(BytesUtil.byteArrayToString(toSend));
+			}else{
+				result.setSamplerData(new String(toSend));
+			}
+
 			result.setSentBytes(toSend.length);
 			result.setLatency(result.getEndTime() - result.getStartTime());
 			result.setSuccessful(pubResult.isSuccessful());
