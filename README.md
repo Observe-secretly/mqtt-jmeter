@@ -1,3 +1,6 @@
+# Customized content
+Enable the plugin to handle Hex format messages.
+
 # mqtt-jmeter Overview
 MQTT JMeter Plugin extends your JMeter's capability to test against MQTT protocol, just as easy as ordinary HTTP protocal. 
 
